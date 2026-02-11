@@ -37,12 +37,6 @@ object AssetManager {
     }
 
     private fun loadBitmap(context: Context, path: String): Bitmap? {
-        return try {
-            val inputStream = context.assets.open(path)
-            BitmapFactory.decodeStream(inputStream)
-        } catch (e: IOException) {
-            e.printStackTrace()
-            null
-        }
+        return AssetLoader.loadBitmap(context, path)
     }
 }

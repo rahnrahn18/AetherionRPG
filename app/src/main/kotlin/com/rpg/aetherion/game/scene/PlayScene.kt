@@ -6,10 +6,24 @@ import com.rpg.aetherion.engine.Camera
 import com.rpg.aetherion.game.entity.Player
 import com.rpg.aetherion.game.map.MapManager
 
-class PlayScene(private val screenWidth: Int, private val screenHeight: Int) : Scene() {
+class PlayScene(private val realScreenWidth: Int, private val realScreenHeight: Int) : Scene() {
+    // Determine logical screen size based on the scaling factor used in GameSurface
+    // This is a bit coupled, ideally passed in.
+    // Let's recalculate the same scale logic or pass it.
+    // For now, let's just use a fixed logical size or update Camera to handle the zoom.
+
+    // Better approach: The Camera should know the logical viewport size.
+    // If we scale by 3x, the viewport width is screenWidth / 3.
+
+    private val density = android.content.res.Resources.getSystem().displayMetrics.density
+    private val scale = if (density < 2) 2f else if (density < 3) 3f else 4f
+
+    private val logicalWidth = (realScreenWidth / scale).toInt()
+    private val logicalHeight = (realScreenHeight / scale).toInt()
+
     private val player = Player(100f, 100f)
     private val mapManager = MapManager()
-    private val camera = Camera(screenWidth, screenHeight)
+    private val camera = Camera(logicalWidth, logicalHeight)
 
     override fun update() {
         val oldX = player.x
@@ -56,7 +70,8 @@ class PlayScene(private val screenWidth: Int, private val screenHeight: Int) : S
     }
 
     override fun draw(canvas: Canvas) {
-        mapManager.draw(canvas, camera.offsetX, camera.offsetY, screenWidth, screenHeight)
+        // Draw using the logical dimensions (because canvas is scaled)
+        mapManager.draw(canvas, camera.offsetX, camera.offsetY, logicalWidth, logicalHeight)
         player.draw(canvas, camera.offsetX, camera.offsetY)
     }
 }

@@ -59,12 +59,23 @@ class MapManager {
                 if (tileId == 0) {
                      // Floor
                      if (floorBitmap != null) {
-                         // Use first tile of floor sheet. Check size.
-                         // Assuming standard 16x16 or 32x32 tiles on sheet
-                         // We just draw the top-left chunk for now.
-                         val sRect = Rect(16, 16, 16+16, 16+16) // Middle of a 3x3 block maybe?
-                         // Let's stick to 0,0 16x16 for safety if unknown layout
-                         val safeSRect = Rect(0, 0, 16, 16)
+                         // Most tilesets have some padding or specific layout.
+                         // If 0,0 is transparent/black, we need to find a valid tile.
+                         // Let's try the center of the bitmap if it's small, or a known offset.
+                         // Standard RPG Maker/Unity tilesets often have top-left as valid or transparent.
+
+                         // Attempt 1: Try (0, 0)
+                         // Attempt 2: If the user says it's black, maybe 0,0 is empty?
+                         // Let's try a bit offset. e.g. 32, 32.
+
+                         val tileW = 16
+                         val tileH = 16
+
+                         // Check bounds
+                         val sx = if (floorBitmap.width >= 32) 16 else 0
+                         val sy = if (floorBitmap.height >= 32) 16 else 0
+
+                         val safeSRect = Rect(sx, sy, sx + tileW, sy + tileH)
                          canvas.drawBitmap(floorBitmap, safeSRect, dstRect, null)
                      }
                 } else if (tileId == 1) {

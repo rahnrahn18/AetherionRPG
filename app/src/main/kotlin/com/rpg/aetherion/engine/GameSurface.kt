@@ -65,6 +65,23 @@ class GameSurface(context: Context, attrs: AttributeSet? = null) : SurfaceView(c
         super.draw(canvas)
         // Clear screen with a background color
         canvas.drawColor(Color.BLACK)
+
+        // Scale the canvas for pixel art look (3x or 4x)
+        // Calculate scale based on density to look good on all screens
+        val density = context.resources.displayMetrics.density
+        val scale = if (density < 2) 2f else if (density < 3) 3f else 4f
+
+        canvas.save()
+        canvas.scale(scale, scale)
+
+        // We need to pass the INVERSE scale to the scene/camera so it knows the "logical" screen size
+        // Currently the scene assumes full screen width.
+        // We should probably just scale the drawing, but the camera logic uses screenWidth.
+        // Let's keep it simple: Camera centers on player.
+        // If we scale the canvas, the viewable area becomes smaller in logical pixels.
+
         currentScene?.draw(canvas)
+
+        canvas.restore()
     }
 }
