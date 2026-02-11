@@ -42,8 +42,12 @@ class MapManager {
         val endX = ((offsetX + screenWidth) / tileSize).toInt().coerceAtMost(mapWidth - 1)
         val endY = ((offsetY + screenHeight) / tileSize).toInt().coerceAtMost(mapHeight - 1)
 
-        val grassBitmap = AssetManager.grassTiles
+        val floorBitmap = AssetManager.floorTiles
         val wallBitmap = AssetManager.wallTiles
+
+        // Adjust source rects if using the new tilesets
+        // Floor tileset is likely a grid. Let's pick a random tile (e.g., 2nd tile) or 0,0
+        // Wall tileset likewise.
 
         for (y in startY..endY) {
             for (x in startX..endX) {
@@ -53,14 +57,22 @@ class MapManager {
                 dstRect.set(tileX, tileY, tileX + tileSize, tileY + tileSize)
 
                 if (tileId == 0) {
-                     if (grassBitmap != null) {
-                         canvas.drawBitmap(grassBitmap, srcRect, dstRect, null)
+                     // Floor
+                     if (floorBitmap != null) {
+                         // Use first tile of floor sheet. Check size.
+                         // Assuming standard 16x16 or 32x32 tiles on sheet
+                         // We just draw the top-left chunk for now.
+                         val sRect = Rect(16, 16, 16+16, 16+16) // Middle of a 3x3 block maybe?
+                         // Let's stick to 0,0 16x16 for safety if unknown layout
+                         val safeSRect = Rect(0, 0, 16, 16)
+                         canvas.drawBitmap(floorBitmap, safeSRect, dstRect, null)
                      }
                 } else if (tileId == 1) {
+                    // Wall
                     if (wallBitmap != null) {
-                         canvas.drawBitmap(wallBitmap, srcRect, dstRect, null)
-                    } else if (grassBitmap != null) {
-                         canvas.drawBitmap(grassBitmap, srcRect, dstRect, null)
+                         // Use first tile of wall sheet
+                         val safeSRect = Rect(0, 0, 16, 16)
+                         canvas.drawBitmap(wallBitmap, safeSRect, dstRect, null)
                     }
                 }
             }

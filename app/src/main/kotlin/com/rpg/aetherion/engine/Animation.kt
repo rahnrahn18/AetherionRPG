@@ -18,7 +18,7 @@ class Animation(private val frames: List<Sprite>, private val frameDuration: Lon
         return frames[currentFrameIndex]
     }
 
-    fun draw(canvas: Canvas, x: Float, y: Float, w: Float, h: Float) {
-        frames[currentFrameIndex].draw(canvas, x, y, w, h)
+    fun draw(canvas: Canvas, x: Float, y: Float, w: Float, h: Float, flipX: Boolean = false) {
+        frames[currentFrameIndex].draw(canvas, x, y, w, h, flipX)
     }
 }
