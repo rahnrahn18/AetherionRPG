@@ -1,4 +1,4 @@
-env.md
+agent.md
 
 **Environment:** AndroidIDE (On-Device Build).
 ***
@@ -26,5 +26,5 @@ JVM 17
 ‎​CMakeLists.txt Location: app/src/main/cpp/CMakeLists.txt
 ‎​C++ Standard: ... (e.g., C++17 or C++20)
 
-Note : for Jules VM Cloud, if you will check to verify, you can change with your sistem available, but change again to my enviroment for Pull Request final.
+Note : for Jules VM Cloud, if project not use ndk, do not apply ndk in project. cmake to or else. 
 ***

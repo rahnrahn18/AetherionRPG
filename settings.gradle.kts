@@ -14,6 +14,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "AssetForgeAI"
+rootProject.name = "AetherionRPG"
 
 include(":app")
