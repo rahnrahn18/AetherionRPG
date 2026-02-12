@@ -17,15 +17,10 @@ object AssetManager {
     var charIdleSide: Bitmap? = null
 
     // Environment
+    var worldMap: Bitmap? = null
+    // Legacy support for basic tiles
     var floorTiles: Bitmap? = null
     var wallTiles: Bitmap? = null
-
-    // New Environment Assets
-    var buildingWalls: Bitmap? = null
-    var buildingFloors: Bitmap? = null
-    var buildingRoofs: Bitmap? = null
-    var extraPlants: Bitmap? = null
-    var extraProps: Bitmap? = null
 
     fun load(context: Context) {
         // Character - Run
@@ -39,15 +34,11 @@ object AssetManager {
         charIdleSide = loadBitmap(context, "PixelPack/Entities/Characters/Body_A/Animations/Idle_Base/Idle_Side-Sheet.png")
 
         // Environment
+        worldMap = loadBitmap(context, "PixelArtTopDown/Scene Overview.png")
+
+        // Legacy (might be used for transitions or particles)
         floorTiles = loadBitmap(context, "PixelPack/Environment/Tilesets/Floors_Tiles.png")
         wallTiles = loadBitmap(context, "PixelPack/Environment/Tilesets/Wall_Tiles.png")
-
-        // New Environment
-        buildingWalls = loadBitmap(context, "PixelPack/Environment/Structures/Buildings/Walls.png")
-        buildingFloors = loadBitmap(context, "PixelPack/Environment/Structures/Buildings/Floors.png")
-        buildingRoofs = loadBitmap(context, "PixelPack/Environment/Structures/Buildings/Roofs.png")
-        extraPlants = loadBitmap(context, "PixelArtTopDown/Texture/Extra/TX Plant with Shadow.png")
-        extraProps = loadBitmap(context, "PixelArtTopDown/Texture/Extra/TX Props with Shadow.png")
     }
 
     private fun loadBitmap(context: Context, path: String): Bitmap? {
