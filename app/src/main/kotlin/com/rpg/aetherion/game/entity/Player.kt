@@ -6,8 +6,8 @@ import com.rpg.aetherion.engine.AssetManager
 import com.rpg.aetherion.engine.InputManager
 import com.rpg.aetherion.engine.Sprite
 
-class Player(x: Float, y: Float) : Entity(x, y, 64f, 64f) {
-    private val speed = 10f
+class Player(x: Float, y: Float) : Entity(x, y, 16f, 16f) { // Changed to 16x16
+    private val speed = 2f // Changed to 2f
 
     // Maps state + direction to animation
     // Key format: "state_direction" e.g., "run_down", "idle_side"
@@ -25,17 +25,6 @@ class Player(x: Float, y: Float) : Entity(x, y, 64f, 64f) {
     private fun loadAnimations() {
         val frameTime = 100L
         val idleFrameTime = 200L
-
-        // According to common assets in this pack (PixelPack), Run has 6 frames, Idle has 4 or 6.
-        // If we force 6 and it only has 4, the slices will be wrong (too narrow).
-        // Let's deduce frame count from width if possible, assuming standard 32px or 48px width per frame.
-        // OR better: Just assume 6 for Run and 6 for Idle as per user's "folder" hint (Body_A/Animations/...).
-        // But if the user says "inconsistent moving around", it means the slicing is misaligned.
-        // Many top-down assets use 32x32 or 48x48 grids.
-
-        // Let's try to calculate frame width based on a standard module.
-        // If sheet width is 192 (6 * 32), then 6 frames is correct.
-        // If sheet width is 128 (4 * 32), then 4 frames.
 
         // Run Animations
         AssetManager.charRunDown?.let { sheet ->
@@ -77,8 +66,6 @@ class Player(x: Float, y: Float) : Entity(x, y, 64f, 64f) {
 
     private fun estimateFrameCount(bitmap: android.graphics.Bitmap): Int {
         // Try to guess based on common power-of-2 sizes or multiples
-        // Most sprites are square-ish.
-        // If height is 32, and width is 192, frames = 6.
         if (bitmap.height > 0) {
             val ratio = bitmap.width / bitmap.height
             // If the ratio is exact integer, it's likely the frame count (assuming square frames)
@@ -92,14 +79,6 @@ class Player(x: Float, y: Float) : Entity(x, y, 64f, 64f) {
     private fun extractFrames(sheet: android.graphics.Bitmap, count: Int): List<Sprite> {
         val frameW = sheet.width / count
         val frameH = sheet.height
-        val list = ArrayList<Sprite>()
-        for (i in 0 until count) {
-            list.add(Sprite(sheet, i * frameW, 0, frameW, frameH))
-        }
-        return list
-    }
-
-    private fun extractFrames(sheet: android.graphics.Bitmap, frameW: Int, frameH: Int, count: Int): List<Sprite> {
         val list = ArrayList<Sprite>()
         for (i in 0 until count) {
             list.add(Sprite(sheet, i * frameW, 0, frameW, frameH))
@@ -145,6 +124,8 @@ class Player(x: Float, y: Float) : Entity(x, y, 64f, 64f) {
     }
 
     override fun draw(canvas: Canvas, offsetX: Float, offsetY: Float) {
+        // Draw the player at the correct position relative to camera (offset)
+        // Adjust for center alignment if needed, but top-left is standard for simple engines
         currentAnimation?.draw(canvas, x - offsetX, y - offsetY, width, height, flipX)
     }
 }
