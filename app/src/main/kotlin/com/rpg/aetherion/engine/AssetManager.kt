@@ -16,6 +16,15 @@ object AssetManager {
     var charIdleUp: Bitmap? = null
     var charIdleSide: Bitmap? = null
 
+    // Villagers
+    var knightIdle: Bitmap? = null
+    var rogueIdle: Bitmap? = null
+    var wizzardIdle: Bitmap? = null
+
+    // Monsters
+    var skeletonIdle: Bitmap? = null
+    var orcIdle: Bitmap? = null
+
     // Environment
     var worldMap: Bitmap? = null
     // Legacy support for basic tiles
@@ -32,6 +41,15 @@ object AssetManager {
         charIdleDown = loadBitmap(context, "PixelPack/Entities/Characters/Body_A/Animations/Idle_Base/Idle_Down-Sheet.png")
         charIdleUp = loadBitmap(context, "PixelPack/Entities/Characters/Body_A/Animations/Idle_Base/Idle_Up-Sheet.png")
         charIdleSide = loadBitmap(context, "PixelPack/Entities/Characters/Body_A/Animations/Idle_Base/Idle_Side-Sheet.png")
+
+        // Villagers (using Npc's folder)
+        knightIdle = loadBitmap(context, "PixelPack/Entities/Npc's/Knight/Idle/Idle-Sheet.png")
+        rogueIdle = loadBitmap(context, "PixelPack/Entities/Npc's/Rogue/Idle/Idle-Sheet.png")
+        wizzardIdle = loadBitmap(context, "PixelPack/Entities/Npc's/Wizzard/Idle/Idle-Sheet.png")
+
+        // Monsters
+        skeletonIdle = loadBitmap(context, "PixelPack/Entities/Mobs/Skeleton Crew/Skeleton - Base/Idle/Idle-Sheet.png")
+        orcIdle = loadBitmap(context, "PixelPack/Entities/Mobs/Orc Crew/Orc - Warrior/Idle/Idle-Sheet.png")
 
         // Environment
         worldMap = loadBitmap(context, "PixelArtTopDown/Scene Overview.png")

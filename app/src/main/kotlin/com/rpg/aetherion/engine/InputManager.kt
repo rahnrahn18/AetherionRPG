@@ -6,6 +6,7 @@ object InputManager {
     var joystickX = 0f
     var joystickY = 0f
     var isTouching = false
+    var isAttack = false // Flag for attack action (or interact)
 
     private val baseRadius = 150f
 
@@ -15,6 +16,10 @@ object InputManager {
     var joyHatX = 0f
     var joyHatY = 0f
     var joyActive = false
+
+    private var downTime = 0L
+    private var downX = 0f
+    private var downY = 0f
 
     fun onTouchEvent(event: MotionEvent) {
         val x = event.x
@@ -28,6 +33,11 @@ object InputManager {
                 joyHatY = y
                 joyActive = true
                 isTouching = true
+
+                downTime = System.currentTimeMillis()
+                downX = x
+                downY = y
+                isAttack = false
             }
             MotionEvent.ACTION_MOVE -> {
                 if (joyActive) {
@@ -54,12 +64,30 @@ object InputManager {
                 isTouching = false
                 joystickX = 0f
                 joystickY = 0f
-                // Reset visual position or keep it? Resetting is cleaner for floating joy
+
                 joyCenterX = 0f
                 joyCenterY = 0f
                 joyHatX = 0f
                 joyHatY = 0f
+
+                // Check for Tap (Short duration and small movement)
+                val upTime = System.currentTimeMillis()
+                val dx = x - downX
+                val dy = y - downY
+                val dist = Math.sqrt((dx * dx + dy * dy).toDouble())
+
+                if (upTime - downTime < 250 && dist < 50) {
+                    isAttack = true
+                }
             }
         }
+    }
+
+    fun consumeAttack(): Boolean {
+        if (isAttack) {
+            isAttack = false
+            return true
+        }
+        return false
     }
 }
