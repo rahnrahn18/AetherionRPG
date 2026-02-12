@@ -17,6 +17,8 @@ object AssetManager {
     var charIdleSide: Bitmap? = null
 
     // Environment
+    var worldMap: Bitmap? = null
+    // Legacy support for basic tiles
     var floorTiles: Bitmap? = null
     var wallTiles: Bitmap? = null
 
@@ -32,6 +34,9 @@ object AssetManager {
         charIdleSide = loadBitmap(context, "PixelPack/Entities/Characters/Body_A/Animations/Idle_Base/Idle_Side-Sheet.png")
 
         // Environment
+        worldMap = loadBitmap(context, "PixelArtTopDown/Scene Overview.png")
+
+        // Legacy (might be used for transitions or particles)
         floorTiles = loadBitmap(context, "PixelPack/Environment/Tilesets/Floors_Tiles.png")
         wallTiles = loadBitmap(context, "PixelPack/Environment/Tilesets/Wall_Tiles.png")
     }
