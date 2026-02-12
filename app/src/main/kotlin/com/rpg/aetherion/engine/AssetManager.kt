@@ -20,6 +20,13 @@ object AssetManager {
     var floorTiles: Bitmap? = null
     var wallTiles: Bitmap? = null
 
+    // New Environment Assets
+    var buildingWalls: Bitmap? = null
+    var buildingFloors: Bitmap? = null
+    var buildingRoofs: Bitmap? = null
+    var extraPlants: Bitmap? = null
+    var extraProps: Bitmap? = null
+
     fun load(context: Context) {
         // Character - Run
         charRunDown = loadBitmap(context, "PixelPack/Entities/Characters/Body_A/Animations/Run_Base/Run_Down-Sheet.png")
@@ -34,6 +41,13 @@ object AssetManager {
         // Environment
         floorTiles = loadBitmap(context, "PixelPack/Environment/Tilesets/Floors_Tiles.png")
         wallTiles = loadBitmap(context, "PixelPack/Environment/Tilesets/Wall_Tiles.png")
+
+        // New Environment
+        buildingWalls = loadBitmap(context, "PixelPack/Environment/Structures/Buildings/Walls.png")
+        buildingFloors = loadBitmap(context, "PixelPack/Environment/Structures/Buildings/Floors.png")
+        buildingRoofs = loadBitmap(context, "PixelPack/Environment/Structures/Buildings/Roofs.png")
+        extraPlants = loadBitmap(context, "PixelArtTopDown/Texture/Extra/TX Plant with Shadow.png")
+        extraProps = loadBitmap(context, "PixelArtTopDown/Texture/Extra/TX Props with Shadow.png")
     }
 
     private fun loadBitmap(context: Context, path: String): Bitmap? {
